@@ -54,6 +54,11 @@ export function DashboardSidebar() {
       icon: Phone,
     },
     {
+      title: "Incoming Fraud",
+      href: "/dashboard/incoming-fraud",
+      icon: AlertTriangle,
+    },
+    {
       title: "QR Scanner",
       href: "/dashboard/qr-scanner",
       icon: QrCode,
