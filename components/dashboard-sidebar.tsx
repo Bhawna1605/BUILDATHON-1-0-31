@@ -80,6 +80,11 @@ export function DashboardSidebar() {
       icon: FileText,
     },
     {
+      title: "Evidence Guide",
+      href: "/dashboard/evidence-guide",
+      icon: FileText,
+    },
+    {
       title: "Activity Log",
       href: "/dashboard/activity",
       icon: Activity,
