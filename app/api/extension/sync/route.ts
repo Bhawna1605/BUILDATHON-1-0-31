@@ -12,13 +12,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Update last sync time
-    const { error: updateError } = await supabase
-      .from("extension_settings")
-      .update({ updated_at: new Date().toISOString() })
-      .eq("user_id", user.id)
+    const { error: upsertError } = await supabase.from("extension_settings").upsert(
+      {
+        user_id: user.id,
+        extension_enabled: true,
+        auto_scan: true,
+        block_suspicious: true,
+        notifications: true,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id" },
+    )
 
-    if (updateError) throw updateError
+    if (upsertError) throw upsertError
 
     return NextResponse.json({ success: true })
   } catch (error) {

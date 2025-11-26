@@ -12,20 +12,33 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Get extension configuration
-    const { data: config } = await supabase.from("extension_settings").select("*").eq("user_id", user.id).single()
+    const { data: config, error } = await supabase
+      .from("extension_settings")
+      .select("*")
+      .eq("user_id", user.id)
+      .maybeSingle()
+
+    // Default settings if none exist
+    const defaultSettings = {
+      extensionEnabled: true,
+      autoScan: true,
+      blockSuspicious: true,
+      notifications: true,
+    }
 
     return NextResponse.json({
       extensions: [
         { id: 1, name: "Chrome Extension", version: "2.1.0", status: "active", lastSync: "Just now", devicesLinked: 1 },
         { id: 2, name: "Firefox Add-on", version: "2.1.0", status: "active", lastSync: "Just now", devicesLinked: 1 },
       ],
-      settings: config || {
-        extensionEnabled: true,
-        autoScan: true,
-        blockSuspicious: true,
-        notifications: true,
-      },
+      settings: config
+        ? {
+            extensionEnabled: config.extension_enabled,
+            autoScan: config.auto_scan,
+            blockSuspicious: config.block_suspicious,
+            notifications: config.notifications,
+          }
+        : defaultSettings,
     })
   } catch (error) {
     console.error("Config fetch error:", error)

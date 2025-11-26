@@ -19,6 +19,7 @@ import {
   Smartphone,
   Activity,
   Brain,
+  FileText,
 } from "lucide-react"
 
 export function DashboardSidebar() {
@@ -67,6 +68,16 @@ export function DashboardSidebar() {
       title: "Browser Extension",
       href: "/dashboard/extension",
       icon: Smartphone,
+    },
+    {
+      title: "Fraud Checker",
+      href: "/dashboard/fraud-checker",
+      icon: Shield,
+    },
+    {
+      title: "Cyber FIR Report",
+      href: "/dashboard/cyber-fir",
+      icon: FileText,
     },
     {
       title: "Activity Log",
